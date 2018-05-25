@@ -29,6 +29,7 @@ public class Ventana extends javax.swing.JFrame {
         model.addColumn("X2");
         model.addColumn("Z");
         this.table.setModel(model);
+        
     }
 
     /**
@@ -531,6 +532,11 @@ public class Ventana extends javax.swing.JFrame {
                     ob[2] = vertices.get(i).getY();
                     ob[3] = funcion.evaluarEn(vertices.get(i).getX(), vertices.get(i).getY());
                     model.addRow(ob);
+                }
+                if (funcion.isMaximizacion()){
+                this.table.setDefaultRenderer(Object.class, new TableColorMax());
+                }else{
+                this.table.setDefaultRenderer(Object.class, new TableColorMin());
                 }
 
     }//GEN-LAST:event_calcularActionPerformed
