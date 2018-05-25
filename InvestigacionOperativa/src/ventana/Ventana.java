@@ -20,6 +20,10 @@ public class Ventana extends javax.swing.JFrame {
      */
     public Ventana() {
         initComponents();
+        model.addColumn("Punto");
+        model.addColumn("X1");
+        model.addColumn("X2");
+        model.addColumn("Z");
         this.table.setModel(model);
     }
 
@@ -373,7 +377,11 @@ public class Ventana extends javax.swing.JFrame {
                 double coefFuncionx1, coefFuncionx2, coefx1Rest1, coefx2Rest1, bRest1, coefx1Rest2, coefx2Rest2, bRest2 ;
                 boolean optimizar;
                 String signor1, signor2,op;
-                Double[] puntoA,puntoB,puntoC,puntoD,puntoE;
+                String[] puntoA = new String[4];
+                String[] puntoB = new String[4];
+                String[] puntoC = new String[4];
+                String[] puntoD = new String[4];
+                String[] puntoE = new String[4];
 
                 //Guardo inputs de la funcion y creo la funcion
                 coefFuncionx1 = Double.parseDouble(fx1.getText());
@@ -445,29 +453,17 @@ public class Ventana extends javax.swing.JFrame {
                 //Creo la restriccion 2
                 Ecuacion r2 = new Ecuacion(coefx1Rest2,coefx2Rest2,signor2,bRest2);
                 
-                System.out.println("r1"+r1.getX1());
-                System.out.println("r1"+r1.getX2());
-                System.out.println("r1"+r1.getB());
-                System.out.println("r1"+r1.getSigno());
-                System.out.println("r2"+r2.getX1());
-                System.out.println("r2"+r2.getX2());
-                System.out.println("r2"+r2.getB());
-                System.out.println("r2"+r2.getSigno());
-                System.out.println("F"+funcion.getX1());
-                System.out.println("F"+funcion.getX2());
-                System.out.println("F"+funcion.isMaximizacion());
-
                 //Calculo la fila de los puntos
                 puntoA = r1.calcularPuntoX2(funcion);
                 puntoB = r2.calcularPuntoX2(funcion);
                 puntoC = r1.calcularInterseccion(funcion, r2);
                 puntoD = r1.calcularPuntoX1(funcion);
-                puntoE = r2.calcularPuntoX2(funcion);
-                /*model.addRow(puntoA);
+                puntoE = r2.calcularPuntoX1(funcion);
+                model.addRow(puntoA);
                 model.addRow(puntoB);
                 model.addRow(puntoC);
                 model.addRow(puntoD);
-                model.addRow(puntoE);*/
+                model.addRow(puntoE);
     }//GEN-LAST:event_calcularActionPerformed
 
     /**

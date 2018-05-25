@@ -26,27 +26,35 @@ public class Ecuacion {
         this.b = b;
     }
     // Calcula el punto en el eje x1 de la restriccion
-    public Double[] calcularPuntoX1(Funcion fun){
-        Double[] fila = new Double[3];
-        fila[1]= b/x1;
-        fila[2]= 0.00;
-        fila[3]= (fila[1]*(fun.getX1()));
+    public String[] calcularPuntoX1(Funcion fun){
+        String[] fila = new String[4];  //Devuelvo {"vacio", "x.xx", "x.xx", "x.xx"}
+        double puntox1 = b/x1;
+        double z = (puntox1 *(fun.getX1()));
+        fila[1] = String.valueOf(puntox1);
+        fila[2] = "0.00";
+        fila[3] = String.valueOf(z);
         return fila;
     }
     // Calcula el punto en el eje x2 de la restriccion
-    public Double[] calcularPuntoX2(Funcion fun){
-        Double[] fila = new Double[3];
-        fila[1]= 0.00;
-        fila[2]= b/x2;
-        fila[3]= (fila[2]*(fun.getX2()));
+    public String[]  calcularPuntoX2(Funcion fun){
+        
+        String[] fila = new String[4];
+        double puntox2 = b/x2;
+        double z = (puntox2 *(fun.getX2()));
+        fila[2] = String.valueOf(puntox2);
+        fila[1] = "0.00";
+        fila[3] = String.valueOf(z);
         return fila;
     }
     
-    public Double[] calcularInterseccion(Funcion fun, Ecuacion r2){
-        Double[] fila = new Double[3];
-        fila[2]= (r2.getB()-((r2.getX1()*this.b)/this.x1))*(1/(r2.getX1()* this.x2)+r2.getX2());
-        fila[1]= (b - (x2 * fila[2]))/x1;
-        fila[3]= (fila[1]*(fun.getX1()))+(fila[2]*(fun.getX2()));
+    public String[] calcularInterseccion(Funcion fun, Ecuacion r2){
+        String[] fila = new String[4];
+        double puntox2 = (r2.getB()-((r2.getX1()*this.b)/this.x1))*(1/(r2.getX1()* this.x2)+r2.getX2());
+        double puntox1 = (b - (x2 * puntox2))/x1;
+        double z = (puntox1 *(fun.getX1()))+(puntox2*(fun.getX2()));
+        fila[1] = String.valueOf(puntox1);
+        fila[2] = String.valueOf(puntox2);
+        fila[3] = String.valueOf(z);
         return fila;
     }
     
