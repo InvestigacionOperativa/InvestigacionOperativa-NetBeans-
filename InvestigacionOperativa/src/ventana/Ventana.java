@@ -7,18 +7,20 @@ package ventana;
 
 import elementos.Ecuacion;
 import elementos.Funcion;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author USUARIO
  */
 public class Ventana extends javax.swing.JFrame {
-
+    DefaultTableModel model = new DefaultTableModel();
     /**
      * Creates new form Ventana
      */
     public Ventana() {
         initComponents();
+        this.table.setModel(model);
     }
 
     /**
@@ -368,7 +370,7 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_r2bActionPerformed
 
     private void calcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularActionPerformed
-       double coefFuncionx1, coefFuncionx2, coefx1Rest1, coefx2Rest1, bRest1, coefx1Rest2, coefx2Rest2, bRest2 ;
+                double coefFuncionx1, coefFuncionx2, coefx1Rest1, coefx2Rest1, bRest1, coefx1Rest2, coefx2Rest2, bRest2 ;
                 boolean optimizar;
                 String signor1, signor2,op;
                 Double[] puntoA,puntoB,puntoC,puntoD,puntoE;
@@ -376,10 +378,9 @@ public class Ventana extends javax.swing.JFrame {
                 //Guardo inputs de la funcion y creo la funcion
                 coefFuncionx1 = Double.parseDouble(fx1.getText());
                 coefFuncionx2 = Double.parseDouble(fx2.getText());
-                op=(String) opti.getSelectedItem();
+                op=(String)opti.getSelectedItem();
                 optimizar = op.equals("Maximizar"); //Pregunta si estoy maximizando(true), sino false
                 Funcion funcion = new Funcion(coefFuncionx1,coefFuncionx2,optimizar);
-
                 // CONTROLO FORMA CANONICA
                 //Pregunto si es una maximizacion
                 if (funcion.isMaximizacion())
@@ -443,12 +444,30 @@ public class Ventana extends javax.swing.JFrame {
                 Ecuacion r1 = new Ecuacion(coefx1Rest1,coefx2Rest1,signor1,bRest1);
                 //Creo la restriccion 2
                 Ecuacion r2 = new Ecuacion(coefx1Rest2,coefx2Rest2,signor2,bRest2);
+                
+                System.out.println("r1"+r1.getX1());
+                System.out.println("r1"+r1.getX2());
+                System.out.println("r1"+r1.getB());
+                System.out.println("r1"+r1.getSigno());
+                System.out.println("r2"+r2.getX1());
+                System.out.println("r2"+r2.getX2());
+                System.out.println("r2"+r2.getB());
+                System.out.println("r2"+r2.getSigno());
+                System.out.println("F"+funcion.getX1());
+                System.out.println("F"+funcion.getX2());
+                System.out.println("F"+funcion.isMaximizacion());
+
                 //Calculo la fila de los puntos
                 puntoA = r1.calcularPuntoX2(funcion);
                 puntoB = r2.calcularPuntoX2(funcion);
                 puntoC = r1.calcularInterseccion(funcion, r2);
                 puntoD = r1.calcularPuntoX1(funcion);
                 puntoE = r2.calcularPuntoX2(funcion);
+                /*model.addRow(puntoA);
+                model.addRow(puntoB);
+                model.addRow(puntoC);
+                model.addRow(puntoD);
+                model.addRow(puntoE);*/
     }//GEN-LAST:event_calcularActionPerformed
 
     /**
