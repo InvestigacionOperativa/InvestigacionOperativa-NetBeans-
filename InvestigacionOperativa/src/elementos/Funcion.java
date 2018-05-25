@@ -43,4 +43,8 @@ public class Funcion {
     public void setX2(double x2) {
         this.x2 = x2;
     }
+    
+    public double evaluarEn(double x1, double x2){
+        return this.x1 * x1 + this.x2 * x2;
+    }
 }

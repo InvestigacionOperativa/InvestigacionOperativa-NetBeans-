@@ -7,6 +7,10 @@ package ventana;
 
 import elementos.Ecuacion;
 import elementos.Funcion;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -150,14 +154,14 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        r1signo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<=", "=", "=>" }));
+        r1signo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<=", "=", ">=" }));
         r1signo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 r1signoActionPerformed(evt);
             }
         });
 
-        r2signo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<=", "=", "=>" }));
+        r2signo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<=", "=", ">=" }));
         r2signo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 r2signoActionPerformed(evt);
@@ -274,52 +278,67 @@ public class Ventana extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fx1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(fx2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(opti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(r1x2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8)
-                                    .addComponent(r1signo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(r1b, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(r2x2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9)
-                                    .addComponent(r2signo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(r2b, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel10)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fx1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel4)
-                            .addComponent(fx2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(opti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(r1x1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(r2x1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))))
+                    .addComponent(r1x2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(r1x1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(r2x2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(r2x1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addComponent(calcular)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(r1b, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(r1signo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(jLabel8))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabel10))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(119, 119, 119)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(r2b, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(r2signo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(119, 119, 119)
+                        .addComponent(jLabel9)))
+                .addGap(210, 210, 210))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(88, 88, 88)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(218, Short.MAX_VALUE)))
+                    .addContainerGap(258, Short.MAX_VALUE)))
         );
 
         pack();
@@ -377,20 +396,17 @@ public class Ventana extends javax.swing.JFrame {
                 double coefFuncionx1, coefFuncionx2, coefx1Rest1, coefx2Rest1, bRest1, coefx1Rest2, coefx2Rest2, bRest2 ;
                 boolean optimizar;
                 String signor1, signor2,op;
-                String[] puntoA = new String[4];
-                String[] puntoB = new String[4];
-                String[] puntoC = new String[4];
-                String[] puntoD = new String[4];
-                String[] puntoE = new String[4];
 
                 //Guardo inputs de la funcion y creo la funcion
                 coefFuncionx1 = Double.parseDouble(fx1.getText());
                 coefFuncionx2 = Double.parseDouble(fx2.getText());
-                op=(String)opti.getSelectedItem();
+                op = (String)opti.getSelectedItem();
                 optimizar = op.equals("Maximizar"); //Pregunta si estoy maximizando(true), sino false
                 Funcion funcion = new Funcion(coefFuncionx1,coefFuncionx2,optimizar);
+                
                 // CONTROLO FORMA CANONICA
                 //Pregunto si es una maximizacion
+                /*
                 if (funcion.isMaximizacion())
                 {
                     //trato restriccion 1
@@ -447,23 +463,76 @@ public class Ventana extends javax.swing.JFrame {
                         bRest2 = bRest2 * (-1);
                         signor2 = "=>";
                     }
-                }
+                }*/
+                
+                
                 //Creo la restriccion 1
+                coefx1Rest1 = Double.parseDouble(r1x1.getText());
+                coefx2Rest1 = Double.parseDouble(r1x2.getText());
+                signor1 = (String) r1signo.getSelectedItem();
+                bRest1 = Double.parseDouble(r1b.getText()); 
                 Ecuacion r1 = new Ecuacion(coefx1Rest1,coefx2Rest1,signor1,bRest1);
                 //Creo la restriccion 2
+                coefx1Rest2 = Double.parseDouble(r2x1.getText());
+                coefx2Rest2 = Double.parseDouble(r2x2.getText());
+                signor2 =(String) r2signo.getSelectedItem();                
+                bRest2 = Double.parseDouble(r2b.getText());
                 Ecuacion r2 = new Ecuacion(coefx1Rest2,coefx2Rest2,signor2,bRest2);
                 
-                //Calculo la fila de los puntos
-                puntoA = r1.calcularPuntoX2(funcion);
-                puntoB = r2.calcularPuntoX2(funcion);
-                puntoC = r1.calcularInterseccion(funcion, r2);
-                puntoD = r1.calcularPuntoX1(funcion);
-                puntoE = r2.calcularPuntoX1(funcion);
-                model.addRow(puntoA);
-                model.addRow(puntoB);
-                model.addRow(puntoC);
-                model.addRow(puntoD);
-                model.addRow(puntoE);
+                //Busco vertices
+                model.getDataVector().removeAllElements();
+                List<Point2D.Double> vertices = new ArrayList<>();
+                vertices.add(r1.calcularPuntoX1());
+                vertices.add(r1.calcularPuntoX2());
+                vertices.add(r2.calcularPuntoX1());
+                vertices.add(r2.calcularPuntoX2());
+                vertices.add(r1.calcularInterseccion(r2));
+                
+                //Controlamos que esten en el factible
+                for (Iterator<Point2D.Double> iter = vertices.listIterator(); iter.hasNext(); ) {
+                    Point2D vertice = iter.next();          
+                    double x1 = vertice.getX();
+                    double x2 = vertice.getY();
+                    boolean viable = true;         
+                    if(x1 < 0 || x2 < 0){
+                        viable = false;
+                    }
+                    //Verificar si el vertice cumple r1               
+                    if (r1.getSigno().equals(">=")) {
+                        if (Double.compare((r1.getX1() * x1 + r1.getX2() * x2), r1.getB()) < 0) { //no cumple r1
+                            viable = false;
+                        }
+                    } else { // "<="
+                        if (Double.compare((r1.getX1() * x1 + r1.getX2() * x2), r1.getB()) > 0) { //no cumple r1
+                            viable = false;
+                        }
+                    }
+                    //Verificar si el vertice cumple r2
+                    if (r2.getSigno().equals(">=")) {
+                        if (Double.compare((r2.getX1() * x1 + r2.getX2() * x2), r2.getB()) < 0) { //no cumple r2
+                            viable = false;
+                        }
+                    } else { // "<="
+                        if (Double.compare((r2.getX1() * x1 + r2.getX2() * x2), r2.getB()) > 0) { //no cumple r2
+                            viable = false;
+                        }
+                    }
+                    if(!viable){
+                        iter.remove();
+                    }
+                }
+                //Cargar vertices en tabla
+                Object[] ob = new Object[4];
+                for (int i=0; i<vertices.size();i++){
+                    String value = "A";
+                    int charValue = value.charAt(0);
+                    ob[0] = (char) (charValue + i);
+                    ob[1] = vertices.get(i).getX();
+                    ob[2] = vertices.get(i).getY();
+                    ob[3] = funcion.evaluarEn(vertices.get(i).getX(), vertices.get(i).getY());
+                    model.addRow(ob);
+                }
+
     }//GEN-LAST:event_calcularActionPerformed
 
     /**
