@@ -8,10 +8,8 @@ package ventana;
 import elementos.Ecuacion;
 import elementos.Funcion;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -391,26 +389,56 @@ public class Ventana extends javax.swing.JFrame {
                 String signor1, signor2,op;
 
                 //Guardo inputs de la funcion y creo la funcion
-                coefFuncionx1 = Double.parseDouble(fx1.getText());
-                coefFuncionx2 = Double.parseDouble(fx2.getText());
+                try{
+                    coefFuncionx1 = Double.parseDouble(fx1.getText());
+                    coefFuncionx2 = Double.parseDouble(fx2.getText());
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(Ventana.this,"Datos incorrectos \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 op = (String)opti.getSelectedItem();
                 optimizar = op.equals("Maximizar"); //Pregunta si estoy maximizando(true), sino false
                 Funcion funcion = new Funcion(coefFuncionx1,coefFuncionx2,optimizar);
                 
                 //Creo la restriccion 1
+                try{
                 coefx1Rest1 = Double.parseDouble(r1x1.getText());
                 coefx2Rest1 = Double.parseDouble(r1x2.getText());
-                signor1 = (String) r1signo.getSelectedItem();
-                bRest1 = Double.parseDouble(r1b.getText()); 
+                bRest1 = Double.parseDouble(r1b.getText());
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(Ventana.this,"Datos incorrectos \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                signor1 = (String) r1signo.getSelectedItem();      
                 Ecuacion r1 = new Ecuacion(coefx1Rest1,coefx2Rest1,signor1,bRest1);
                 //Creo la restriccion 2
+                try{
                 coefx1Rest2 = Double.parseDouble(r2x1.getText());
                 coefx2Rest2 = Double.parseDouble(r2x2.getText());
-                signor2 =(String) r2signo.getSelectedItem();                
                 bRest2 = Double.parseDouble(r2b.getText());
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(Ventana.this,"Datos incorrectos \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }                
+                signor2 =(String) r2signo.getSelectedItem();                
                 Ecuacion r2 = new Ecuacion(coefx1Rest2,coefx2Rest2,signor2,bRest2);
                 
                 
+                //Cambio signos = de r1 y r2 al correspondiente >= o <=
+                if (r1.getSigno().equals("=")) {
+                    if (funcion.isMaximizacion()) {
+                        r1.setSigno("<=");
+                    } else {
+                        r1.setSigno(">=");
+                    }
+                }else if (r2.getSigno().equals("=")) {
+                    if (funcion.isMaximizacion()) {
+                        r2.setSigno("<=");
+                    } else {
+                        r2.setSigno(">=");
+                    }
+                }
+           
                 //Busco vertices
                 model.getDataVector().removeAllElements();
                 Set<Point2D.Double> vertices = new HashSet<>();
@@ -456,12 +484,17 @@ public class Ventana extends javax.swing.JFrame {
                 }
                 
                 //Verifico casos especiales
-                if(vertices.size() == 0 ){
+                if(vertices.isEmpty()){
                     JOptionPane.showMessageDialog(Ventana.this,"El problema no tiene solucion (Infactible)");
                 }else if(funcion.solucionInfinita(r1,r2)){
                     JOptionPane.showMessageDialog(Ventana.this,"El problema tiene infinitas soluciones");
-                }
-
+                }else{
+                    if(r1.getSigno().equals(">=") && r2.getSigno().equals(">=") && funcion.isMaximizacion()){
+                        JOptionPane.showMessageDialog(Ventana.this,"Solución no acotada");
+                    }
+                } 
+                    
+                    
                 //Cargar vertices en tabla
                 Object[] ob = new Object[4];
                 int a = 0;
