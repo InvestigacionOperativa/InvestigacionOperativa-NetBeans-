@@ -5,6 +5,8 @@
  */
 package elementos;
 
+import java.awt.geom.Point2D;
+
 /**
  *
  * @author USUARIO
@@ -46,5 +48,23 @@ public class Funcion {
     
     public double evaluarEn(double x1, double x2){
         return this.x1 * x1 + this.x2 * x2;
+    }
+    
+    public boolean solucionInfinita(Ecuacion r1,Ecuacion r2){
+        Double mf,mr1,mr2;
+        Point2D.Double p1r1 = r1.calcularPuntoX1();
+        Point2D.Double p2r1 = r1.calcularPuntoX2();
+        Point2D.Double p1r2 = r2.calcularPuntoX1();
+        Point2D.Double p2r2 = r2.calcularPuntoX2();
+        mr1=((p2r1.getY()) - (p1r1.getY()))/((p2r1.getX()) - (p1r1.getX())); //Calcula pendiente de la restriccion1
+        mr2=((p2r2.getY()) - (p1r2.getY()))/((p2r2.getX()) - (p1r2.getX())); //Calcula pendiente de la restriccion1
+        mf=-(x1/x2);// Pendiente de la funcion
+        System.out.println("mf "+mf);
+        System.out.println("mr1 "+mr1);
+        System.out.println("mr2 "+mr2);
+        if((mr1.equals(mf))||(mr2.equals(mf))){
+            return true;
+        }
+        return false;
     }
 }
