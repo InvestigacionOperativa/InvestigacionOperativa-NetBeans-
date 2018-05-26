@@ -23,6 +23,7 @@ public class TableColorMax extends DefaultTableCellRenderer{
         }else{
             componente.setBackground(Color.WHITE);
         }
+        componente.setForeground(Color.BLACK);
         return componente;
     }
     
@@ -32,7 +33,7 @@ public class TableColorMax extends DefaultTableCellRenderer{
         res = 0.00;
         TableModel tableModel = table.getModel();
         for (int i = 0; i < tableModel.getRowCount() ; i++) {
-            aux =(Double)tableModel.getValueAt(i, 3); 
+            aux = Double.parseDouble((String)tableModel.getValueAt(i, 3)); 
             if (aux > res){
                 res = aux;
                 fila = i;

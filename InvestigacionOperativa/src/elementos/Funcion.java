@@ -56,15 +56,38 @@ public class Funcion {
         Point2D.Double p2r1 = r1.calcularPuntoX2();
         Point2D.Double p1r2 = r2.calcularPuntoX1();
         Point2D.Double p2r2 = r2.calcularPuntoX2();
-        mr1=((p2r1.getY()) - (p1r1.getY()))/((p2r1.getX()) - (p1r1.getX())); //Calcula pendiente de la restriccion1
-        mr2=((p2r2.getY()) - (p1r2.getY()))/((p2r2.getX()) - (p1r2.getX())); //Calcula pendiente de la restriccion1
-        mf=-(x1/x2);// Pendiente de la funcion
-        System.out.println("mf "+mf);
-        System.out.println("mr1 "+mr1);
-        System.out.println("mr2 "+mr2);
-        if((mr1.equals(mf))||(mr2.equals(mf))){
-            return true;
+        mr1 = ((p2r1.getY()) - (p1r1.getY()))/((p2r1.getX()) - (p1r1.getX())); //Calcula pendiente de la restriccion1
+        mr2 = ((p2r2.getY()) - (p1r2.getY()))/((p2r2.getX()) - (p1r2.getX())); //Calcula pendiente de la restriccion2
+        mf = -(x1/x2);// Pendiente de la funcion
+        //Compruebo que sean paralelas las rectas interesadas
+        if(equals(mr1,mf) || equals(mr2, mf)){
+            if(p2r1.getY() > p2r2.getY()){
+                if(equals(mr1,mf) && this.isMaximizacion()){
+                    return true;
+                }
+            }else{
+                if(equals(mr2, mf) && this.isMaximizacion()){
+                    return true;
+                }
+            }
+            if(p2r1.getY() < p2r2.getY()){
+                if(equals(mr1,mf) && !this.isMaximizacion()){
+                    return true;
+                }
+            }else{
+                if(equals(mr2, mf) && !this.isMaximizacion()){
+                    return true;
+                }
+            }
         }
         return false;
     }
+    
+    private boolean equals(double a, double b) {
+        if (a == b) {
+            return true;
+        }
+        return Math.abs(a - b) < 0.000000001;
+    }
 }
+

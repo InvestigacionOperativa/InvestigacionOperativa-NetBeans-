@@ -9,8 +9,10 @@ import elementos.Ecuacion;
 import elementos.Funcion;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,7 +32,7 @@ public class Ventana extends javax.swing.JFrame {
         model.addColumn("X2");
         model.addColumn("Z");
         this.table.setModel(model);
-        
+        this.table.setDefaultEditor(Object.class, null);
     }
 
     /**
@@ -408,21 +410,18 @@ public class Ventana extends javax.swing.JFrame {
                 bRest2 = Double.parseDouble(r2b.getText());
                 Ecuacion r2 = new Ecuacion(coefx1Rest2,coefx2Rest2,signor2,bRest2);
                 
-                // Verifico caso de infinitas soluciones
-                if(funcion.solucionInfinita(r1,r2)){
-                JOptionPane.showMessageDialog(null,"El problema tiene infinitas soluciones");}
                 
                 //Busco vertices
                 model.getDataVector().removeAllElements();
-                List<Point2D.Double> vertices = new ArrayList<>();
+                Set<Point2D.Double> vertices = new HashSet<>();
                 vertices.add(r1.calcularPuntoX1());
                 vertices.add(r1.calcularPuntoX2());
                 vertices.add(r2.calcularPuntoX1());
                 vertices.add(r2.calcularPuntoX2());
                 vertices.add(r1.calcularInterseccion(r2));
                 
-                //Controlamos que esten en el factible
-                for (Iterator<Point2D.Double> iter = vertices.listIterator(); iter.hasNext(); ) {
+                //Controlamos que los vertices esten en el factible
+                for (Iterator<Point2D.Double> iter = vertices.iterator(); iter.hasNext(); ) {
                     Point2D vertice = iter.next();          
                     double x1 = vertice.getX();
                     double x2 = vertice.getY();
@@ -456,22 +455,31 @@ public class Ventana extends javax.swing.JFrame {
                     }
                 }
                 
+                //Verifico casos especiales
+                if(vertices.size() == 0 ){
+                    JOptionPane.showMessageDialog(Ventana.this,"El problema no tiene solucion (Infactible)");
+                }else if(funcion.solucionInfinita(r1,r2)){
+                    JOptionPane.showMessageDialog(Ventana.this,"El problema tiene infinitas soluciones");
+                }
+
                 //Cargar vertices en tabla
                 Object[] ob = new Object[4];
-                if(vertices.size() == 0 ) JOptionPane.showMessageDialog(null,"El problema no tiene solucion (Infactible)");
-                for (int i=0; i<vertices.size();i++){
+                int a = 0;
+                for (Iterator<Point2D.Double> iter = vertices.iterator(); iter.hasNext(); ) {
+                    Point2D vertice = iter.next();          
                     String value = "A";
                     int charValue = value.charAt(0);
-                    ob[0] = (char) (charValue + i);
-                    ob[1] = vertices.get(i).getX();
-                    ob[2] = vertices.get(i).getY();
-                    ob[3] = funcion.evaluarEn(vertices.get(i).getX(), vertices.get(i).getY());
-                    model.addRow(ob);
+                    ob[0] = (char) (charValue + a); a++;
+                    ob[1] = String.format("%.4f", vertice.getX());
+                    ob[2] = String.format("%.4f", vertice.getY());
+                    ob[3] = String.format("%.4f", funcion.evaluarEn(vertice.getX(), vertice.getY()));
+                    model.addRow(ob);           
                 }
+                //Pintar min o max
                 if (funcion.isMaximizacion()){
-                this.table.setDefaultRenderer(Object.class, new TableColorMax());
+                    this.table.setDefaultRenderer(Object.class, new TableColorMax());
                 }else{
-                this.table.setDefaultRenderer(Object.class, new TableColorMin());
+                    this.table.setDefaultRenderer(Object.class, new TableColorMin());
                 }
     }//GEN-LAST:event_calcularActionPerformed
 
