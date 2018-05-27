@@ -33,7 +33,7 @@ public class TableColorMax extends DefaultTableCellRenderer{
         res = 0.00;
         TableModel tableModel = table.getModel();
         for (int i = 0; i < tableModel.getRowCount() ; i++) {
-            aux = Double.parseDouble((String)tableModel.getValueAt(i, 3)); 
+            aux = Double.parseDouble((String)tableModel.getValueAt(i, 5)); 
             if (aux > res){
                 res = aux;
                 fila = i;

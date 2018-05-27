@@ -37,7 +37,7 @@ public class TableColorMin extends DefaultTableCellRenderer{
         res = 9999999.00;
         TableModel tableModel = table.getModel();
         for (int i = 0; i < tableModel.getRowCount() ; i++) {
-            aux = Double.parseDouble((String)tableModel.getValueAt(i, 3)); 
+            aux = Double.parseDouble((String)tableModel.getValueAt(i, 5)); 
             if (aux < res){
                 res = aux;
                 fila = i;
