@@ -512,6 +512,7 @@ public class Ventana extends javax.swing.JFrame {
                     ob[5] = String.format("%.4f", funcion.evaluarEn(vertice.getX(), vertice.getY()));
                     model.addRow(ob);           
                 }
+                //
                 //Pintar min o max
                 if (funcion.isMaximizacion()){
                     this.table.setDefaultRenderer(Object.class, new TableColorMax());
