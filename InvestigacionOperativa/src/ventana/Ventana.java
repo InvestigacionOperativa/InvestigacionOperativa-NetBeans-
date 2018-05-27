@@ -28,6 +28,8 @@ public class Ventana extends javax.swing.JFrame {
         model.addColumn("Punto");
         model.addColumn("X1");
         model.addColumn("X2");
+        model.addColumn("S1");
+        model.addColumn("S2");
         model.addColumn("Z");
         this.table.setModel(model);
         this.table.setDefaultEditor(Object.class, null);
@@ -150,6 +152,8 @@ public class Ventana extends javax.swing.JFrame {
         jLabel9.setText("x2");
 
         opti.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maximizar", "Minimizar" }));
+        opti.setName(""); // NOI18N
+        opti.setNextFocusableComponent(r1x1);
         opti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optiActionPerformed(evt);
@@ -170,6 +174,7 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
+        r1b.setNextFocusableComponent(r2x1);
         r1b.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 r1bActionPerformed(evt);
@@ -265,7 +270,6 @@ public class Ventana extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(calcular)
                                         .addGap(142, 142, 142)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel10))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(145, 145, 145)
@@ -306,12 +310,10 @@ public class Ventana extends javax.swing.JFrame {
                                     .addComponent(r1x1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel6)
                                     .addComponent(r1x2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel8)
-                                    .addComponent(r1signo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(r1b, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8)
+                                .addComponent(r1signo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(r1b, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(r2x1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -496,7 +498,7 @@ public class Ventana extends javax.swing.JFrame {
                     
                     
                 //Cargar vertices en tabla
-                Object[] ob = new Object[4];
+                Object[] ob = new Object[6];
                 int a = 0;
                 for (Iterator<Point2D.Double> iter = vertices.iterator(); iter.hasNext(); ) {
                     Point2D vertice = iter.next();          
@@ -505,7 +507,9 @@ public class Ventana extends javax.swing.JFrame {
                     ob[0] = (char) (charValue + a); a++;
                     ob[1] = String.format("%.4f", vertice.getX());
                     ob[2] = String.format("%.4f", vertice.getY());
-                    ob[3] = String.format("%.4f", funcion.evaluarEn(vertice.getX(), vertice.getY()));
+                    ob[3] = String.format("%.4f", r1.getSlack(vertice.getX(), vertice.getY()));
+                    ob[4] = String.format("%.4f", r2.getSlack(vertice.getX(), vertice.getY()));
+                    ob[5] = String.format("%.4f", funcion.evaluarEn(vertice.getX(), vertice.getY()));
                     model.addRow(ob);           
                 }
                 //Pintar min o max
