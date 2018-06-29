@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package ventana;
-
 import elementos.Ecuacion;
 import elementos.Funcion;
 import it.ssc.log.SscLogger;
