@@ -74,4 +74,11 @@ public class Ecuacion {
         return Math.abs(this.x1 * x1 + this.x2 * x2 - this.b);
     }
     
+    public double evaluarX1En(double x2){
+        return (b-this.x2*x2)/this.x1;
+    }
+    
+    public double evaluarX2En(double x1){
+        return (b-this.x1*x1)/this.x2;
+    }
 }
