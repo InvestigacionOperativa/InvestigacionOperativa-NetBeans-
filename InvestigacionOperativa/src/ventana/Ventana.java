@@ -546,8 +546,8 @@ public class Ventana extends javax.swing.JFrame {
         double b[] = {bRest1, bRest2};
         double c[] = {coefFuncionx1, coefFuncionx2};
 
-        ConsType consType1 = (signor1==">=") ? ConsType.GE : ConsType.LE;
-        ConsType consType2 = (signor2==">=") ? ConsType.GE : ConsType.LE;
+        ConsType consType1 = (signor1.equals(">=")) ? ConsType.GE : ConsType.LE;
+        ConsType consType2 = (signor2.equals(">=")) ? ConsType.GE : ConsType.LE;
         ConsType[] rel = {consType1, consType2};
 
         LinearObjectiveFunction fo = null;
@@ -558,7 +558,7 @@ public class Ventana extends javax.swing.JFrame {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ArrayList< Constraint> constraints = new ArrayList< Constraint>();
+        ArrayList<Constraint> constraints = new ArrayList();
         for (int i = 0; i < A.length; i++) {
             try {
                 constraints.add(new Constraint(A[i], rel[i], b[i]));
@@ -604,11 +604,11 @@ public class Ventana extends javax.swing.JFrame {
                 int charValue = value.charAt(0);
                 ob[0] = (char) (charValue + a);
                 a++;
-                ob[1] = String.format("%.4f", vertice.getX());
-                ob[2] = String.format("%.4f", vertice.getY());
-                ob[3] = String.format("%.4f", r1.getSlack(vertice.getX(), vertice.getY()));
-                ob[4] = String.format("%.4f", r2.getSlack(vertice.getX(), vertice.getY()));
-                ob[5] = String.format("%.4f", funcion.evaluarEn(vertice.getX(), vertice.getY()));
+                ob[1] = String.valueOf(vertice.getX());
+                ob[2] = String.valueOf(vertice.getY());
+                ob[3] = String.valueOf(r1.getSlack(vertice.getX(), vertice.getY()));
+                ob[4] = String.valueOf(r2.getSlack(vertice.getX(), vertice.getY()));
+                ob[5] = String.valueOf(funcion.evaluarEn(vertice.getX(), vertice.getY()));
                 model.addRow(ob);
             }
 
